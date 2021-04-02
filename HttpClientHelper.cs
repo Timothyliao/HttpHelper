@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Web;
 
 namespace LogisticsSystem.Tools
 {
@@ -19,8 +20,8 @@ namespace LogisticsSystem.Tools
         /// <summary>
         /// get请求，可以对请求头进行多项设置
         /// </summary>
-        /// <param name="paramArray"></param>
-        /// <param name="url"></param>
+        /// <param name="paramArray">参数字典</param>
+        /// <param name="url">请求地址</param>
         /// <returns></returns>
         public static string GetResponseByGet(List<KeyValuePair<string, string>> paramArray, string url)
         {
@@ -41,7 +42,7 @@ namespace LogisticsSystem.Tools
 
             return result;
         }
-      
+
         public static string GetResponseBySimpleGet(List<KeyValuePair<string, string>> paramArray, string url)
         {
 
@@ -52,6 +53,13 @@ namespace LogisticsSystem.Tools
             return result;
         }
 
+        /// <summary>
+        /// Http post 请求
+        /// </summary>
+        /// <param name="Url"></param>
+        /// <param name="paramArray"></param>
+        /// <param name="ContentType"></param>
+        /// <returns></returns>
         public static string HttpPostRequestAsync(string Url, List<KeyValuePair<string, string>> paramArray, string ContentType = "application/x-www-form-urlencoded")
         {
             string result = "";
@@ -93,14 +101,26 @@ namespace LogisticsSystem.Tools
             return result;
         }
 
+        /// <summary>
+        /// Url编码
+        /// </summary>
+        /// <param name="content">编码内容</param>
+        /// <param name="encode">编码方式</param>
+        /// <returns></returns>
         private static string Encode(string content, Encoding encode = null)
         {
             if (encode == null) return content;
 
-            return System.Web.HttpUtility.UrlEncode(content, Encoding.UTF8);
+            return HttpUtility.UrlEncode(content, Encoding.UTF8);
 
         }
 
+        /// <summary>
+        /// 根据参数字典创建参数字符串
+        /// </summary>
+        /// <param name="paramArray">参数字典</param>
+        /// <param name="encode">编码方式，默认为UTF-8</param>
+        /// <returns></returns>
         private static string BuildParam(List<KeyValuePair<string, string>> paramArray, Encoding encode = null)
         {
             string url = "";
